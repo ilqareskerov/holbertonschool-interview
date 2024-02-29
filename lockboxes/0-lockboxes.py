@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """First Algorithm Problem"""
+
 def canUnlockAll(boxes):
     unlockedBoxes = set([0])
     leftToExplore = [0]
@@ -12,4 +13,6 @@ def canUnlockAll(boxes):
             if key < len(boxes) and key not in unlockedBoxes:
                 unlockedBoxes.add(key)
                 leftToExplore.append(key)
+                
     return len(unlockedBoxes) == len(boxes)
+
