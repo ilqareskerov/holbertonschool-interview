@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """First Algorithm Problem"""
 
+
 def canUnlockAll(boxes):
     unlockedBoxes = set([0])
     leftToExplore = [0]
