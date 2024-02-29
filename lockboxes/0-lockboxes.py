@@ -12,6 +12,5 @@ def canUnlockAll(boxes):
             if key < len(boxes) and key not in unlockedBoxes:
                 unlockedBoxes.add(key)
                 leftToExplore.append(key)
-                
     return len(unlockedBoxes) == len(boxes)
 
