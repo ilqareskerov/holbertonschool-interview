@@ -13,4 +13,3 @@ def canUnlockAll(boxes):
                 unlockedBoxes.add(key)
                 leftToExplore.append(key)
     return len(unlockedBoxes) == len(boxes)
-# Testing the function with some examples
