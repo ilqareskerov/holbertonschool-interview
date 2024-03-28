@@ -1,4 +1,4 @@
-#include "sandpiles.h" 
+#include "sandpiles.h"
 #include <stdio.h>
 
 /**
