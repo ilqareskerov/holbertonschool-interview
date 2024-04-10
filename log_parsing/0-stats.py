@@ -1,43 +1,46 @@
 #!/usr/bin/python3
-
-
-"""Input stats"""
-
+"""
+this script reads stdin line by line and computes metrics
+"""
 import sys
-import re
-
-logs = 0
-total_size = 0
-status_codes = {
-    "200": 0,
-    "301": 0,
-    "400": 0,
-    "401": 0,
-    "403": 0,
-    "404": 0,
-    "405": 0,
-    "500": 0
-}
 
 
-def print_statistics(statuses, total):
-    print("File size: {}".format(total))
-    for key, value in sorted(statuses.items()):
-        if value != 0:
-            print("{}: {}".format(key, value))
+def printS(fileSize, statusDict):
+    """ print """
+    print("File size: {:d}".format(fileSize))
+    for key in sorted(statusDict.keys()):
+        if statusDict[key] != 0:
+            print(
+                "{}: {:d}".format(
+                    key, statusDict[key]
+                )
+            )
 
 
-try:
-    for line in sys.stdin:
-        new_line = line.rstrip().split(" ")
-        if len(new_line) == 9 or len(new_line) == 7:
-            try:
-                logs += 1
-                total_size += int(new_line[-1])
-                status_codes[new_line[-2]] += 1
-                if logs % 10 == 0 and logs != 0:
-                    print_statistics(status_codes, total_size)
-            except BaseException:
-                pass
-finally:
-    print_statistics(status_codes, total_size)
+if __name__ == "__main__":
+    i = 0
+    statusDict = {
+        '200': 0,
+        '301': 0,
+        '400': 0,
+        '401': 0,
+        '403': 0,
+        '404': 0,
+        '405': 0,
+        '500': 0
+    }
+    fileSize = 0
+    try:
+        for line in sys.stdin:
+            keywords = line.split()
+            if len(keywords) >= 2:
+                if keywords[-2] in statusDict.keys():
+                    statusDict[keywords[-2]] += 1
+                fileSize += int(keywords[-1])
+                i += 1
+                if not i % 10:
+                    printS(fileSize, statusDict)
+        printS(fileSize, statusDict)
+    except KeyboardInterrupt:
+        printS(fileSize, statusDict)
+        raise
