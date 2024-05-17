@@ -1,81 +1,77 @@
 #include "slide_line.h"
 
 /**
- * slide_line - slides a line either left or right
- * @line: input array
- * @size: size of array
- * @direction: direction to slide
- * Return: 0 on failure, 1 on success
+ * Slide and merge an array of integers to the left or right.
+ *
+ * @param line      Pointer to an array of integers.
+ * @param size      Number of elements in the array.
+ * @param direction Direction to slide and merge (SLIDE_LEFT or SLIDE_RIGHT).
+ *
+ * @return 1 on success, 0 on failure.
  */
 int slide_line(int *line, size_t size, int direction)
 {
-	if (!line || (direction != SLIDE_LEFT && direction != SLIDE_RIGHT))
-		return (0);
-	direction == SLIDE_LEFT ? slide_left(line, size)
-		: slide_right(line, size);
-	return (1);
-}
+    int i, j;
 
-/**
- * slide_left - slides a line to the left
- * @line: input array
- * @size: size of array
- */
-void slide_left(int *line, size_t size)
-{
-	int i = 0, j, prev = 0, curr;
+    if (line == NULL || (direction != SLIDE_RIGHT && direction != SLIDE_LEFT))
+        return 0;
 
-	for (j = 0; j < (int)size; j++)
-	{
-		curr = line[j];
-		if (!curr)
-			continue;
-		if (!prev)
-			prev = curr;
-		else if (prev == curr)
-		{
-			line[i++] = curr << 1;
-			prev = 0;
-		} else
-		{
-			line[i++] = prev;
-			prev = curr;
-		}
-	}
-	if (prev)
-		line[i++] = prev;
-	while (i < (int)size)
-		line[i++] = 0;
-}
+    if (direction == SLIDE_LEFT)
+    {
+        for (i = 1, j = 0; i < (int)size; i++)
+        {
+            if (line[i] != 0)
+            {
+                if (line[i] == line[j])
+                {
+                    line[j++] *= 2;
+                    line[i] = 0;
+                }
+                else if (line[j] == 0)
+                {
+                    line[j] = line[i];
+                    line[i] = 0;
+                }
+                else
+                {
+                    j++;
+                    if (i != j)
+                    {
+                        line[j] = line[i];
+                        line[i] = 0;
+                    }
+                }
+            }
+        }
+    }
+    else if (direction == SLIDE_RIGHT)
+    {
+        for (i = size - 2, j = size - 1; i >= 0; i--)
+        {
+            if (line[i] != 0)
+            {
+                if (line[i] == line[j])
+                {
+                    line[j--] *= 2;
+                    line[i] = 0;
+                }
+                else if (line[j] == 0)
+                {
+                    line[j] = line[i];
+                    line[i] = 0;
+                }
+                else
+                {
+                    j--;
+                    if (i != j)
+                    {
+                        line[j] = line[i];
+                        line[i] = 0;
+                    }
+                }
+            }
+        }
+    }
 
-/**
- * slide_right - slides a line to the right
- * @line: input array
- * @size: size of array
- */
-void slide_right(int *line, size_t size)
-{
-	int prev = 0, i = size - 1, j, curr;
-
-	for (j = size - 1; j >= 0; j--)
-	{
-		curr = line[j];
-		if (!curr)
-			continue;
-		if (!prev)
-			prev = curr;
-		else if (prev == curr)
-		{
-			line[i--] = curr << 1;
-			prev = 0;
-		} else
-		{
-			line[i--] = prev;
-			prev = curr;
-		}
-	}
-	if (prev)
-		line[i--] = prev;
-	while (i >= 0)
-		line[i--] = 0;
+    return 1;
 }
