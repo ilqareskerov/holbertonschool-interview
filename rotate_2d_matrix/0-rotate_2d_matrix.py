@@ -11,7 +11,6 @@ def rotate_2d_matrix(matrix):
     copy = matrix[:]
 
     for i in range(len(matrix)):
-
         # extract the i column from the copy
         col_i = [row[i] for row in copy]
 
