@@ -1,12 +1,19 @@
 #!/usr/bin/python3
-"""Rotate 2D Matrix"""
+""" Module that contains a function that rotates a matrix 90 degrees clockwise
+"""
 
 
 def rotate_2d_matrix(matrix):
-    """Given an n x n 2D matrix"""
-    n = len(matrix)
-    for i in range(n):
-        for j in range(i, n):
-            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
-    for i in range(n):
-        matrix[i].reverse()
+    """ Function that rotates a matrix 90 degrees clockwise
+    """
+
+    # create a replica of the original matrix
+    copy = matrix[:]
+
+    for i in range(len(matrix)):
+
+        # extract the i column from the copy
+        col_i = [row[i] for row in copy]
+
+        # place it on the original matrix in reverse order
+        matrix[i] = col_i[::-1]
